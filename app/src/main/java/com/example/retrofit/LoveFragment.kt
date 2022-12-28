@@ -36,10 +36,10 @@ class LoveFragment : Fragment() {
                     firstName = incNames.firstNameEt.text.toString(),
                     secondName = incNames.secondNameEt.text.toString()).enqueue(object: Callback<LoveModel>{
                     override fun onResponse(call: Call<LoveModel>, response: Response<LoveModel>) {
-                       var result = response.body()?.percentage
-                        incResult.percentage.setText(result)
-                        incResult.name1.text = incNames.firstNameEt.text
-                        incResult.name2.text = incNames.secondNameEt.text
+                        incResult.percentage.text = response.body()?.percentage
+                        incResult.name1.text = response.body()?.firstName
+                        incResult.name2.text = response.body()?.secondName
+                        incResult.result.text = response.body()?.result
                         include1.isVisible = false
                         include2.isVisible = true
                     }
