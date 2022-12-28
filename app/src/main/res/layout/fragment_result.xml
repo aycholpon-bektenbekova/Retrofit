@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/name2"
-       app:layout_constraintTop_toBottomOf="@id/heart"
+        app:layout_constraintTop_toBottomOf="@id/heart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="ME"

@@ -5,22 +5,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
-import com.example.retrofit.databinding.FragmentLoveBinding
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
+import com.example.retrofit.databinding.FragmentNamesBinding
 import com.example.retrofit.model.LoveModel
 import com.example.retrofit.service.RetrofitService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoveFragment : Fragment() {
+class NamesFragment : Fragment() {
 
-    private lateinit var binding: FragmentLoveBinding
+    private lateinit var binding: FragmentNamesBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentLoveBinding.inflate(layoutInflater)
+        binding = FragmentNamesBinding.inflate(layoutInflater)
         return (binding.root)
     }
 
@@ -31,17 +32,18 @@ class LoveFragment : Fragment() {
 
     private fun initClicker() {
         with(binding){
-            incNames.calcBtn.setOnClickListener {
+            calcBtn.setOnClickListener {
                 RetrofitService().getLoveApi().getResultLove(
-                    firstName = incNames.firstNameEt.text.toString(),
-                    secondName = incNames.secondNameEt.text.toString()).enqueue(object: Callback<LoveModel>{
+                    firstName = firstNameEt.text.toString(),
+                    secondName = secondNameEt.text.toString()).enqueue(object: Callback<LoveModel>{
                     override fun onResponse(call: Call<LoveModel>, response: Response<LoveModel>) {
-                        incResult.percentage.text = response.body()?.percentage
-                        incResult.name1.text = response.body()?.firstName
-                        incResult.name2.text = response.body()?.secondName
-                        incResult.result.text = response.body()?.result
-                        include1.isVisible = false
-                        include2.isVisible = true
+                        val arguments = LoveModel (
+                         response.body()?.firstName.toString(),
+                         response.body()?.secondName.toString(),
+                         response.body()?.percentage.toString(),
+                         response.body()?.result.toString())
+
+                        findNavController().navigate(R.id.resultFragment, bundleOf("key" to arguments))
                     }
 
                     override fun onFailure(call: Call<LoveModel>, t: Throwable) {
