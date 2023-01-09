@@ -11,7 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.retrofit.databinding.FragmentNamesBinding
 import com.example.retrofit.viewmodel.LoveViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NamesFragment : Fragment() {
 
     private lateinit var binding: FragmentNamesBinding
