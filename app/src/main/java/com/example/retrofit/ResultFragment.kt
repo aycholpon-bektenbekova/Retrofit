@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.retrofit.databinding.FragmentResultBinding
-import com.example.retrofit.model.LoveModel
+import com.example.retrofit.remote.LoveModel
 
 
 class ResultFragment : Fragment() {

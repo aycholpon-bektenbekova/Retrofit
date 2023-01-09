@@ -1,7 +1,6 @@
-package com.example.retrofit.view
+package com.example.retrofit.remote
 
 import retrofit2.Call
-import com.example.retrofit.model.LoveModel
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query

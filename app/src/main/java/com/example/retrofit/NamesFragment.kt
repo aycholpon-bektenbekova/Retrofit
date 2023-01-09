@@ -1,26 +1,27 @@
 package com.example.retrofit
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.example.retrofit.databinding.FragmentNamesBinding
-import com.example.retrofit.model.LoveModel
-import com.example.retrofit.service.RetrofitService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.retrofit.viewmodel.LoveViewModel
 
 class NamesFragment : Fragment() {
 
     private lateinit var binding: FragmentNamesBinding
+
+    private val viewModel: LoveViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentNamesBinding.inflate(layoutInflater)
         return (binding.root)
     }
@@ -30,28 +31,17 @@ class NamesFragment : Fragment() {
         initClicker()
     }
 
+    @SuppressLint("FragmentLiveDataObserve")
     private fun initClicker() {
-        with(binding){
+        with(binding) {
             calcBtn.setOnClickListener {
-                RetrofitService().getLoveApi().getResultLove(
-                    firstName = firstNameEt.text.toString(),
-                    secondName = secondNameEt.text.toString()).enqueue(object: Callback<LoveModel>{
-                    override fun onResponse(call: Call<LoveModel>, response: Response<LoveModel>) {
-                        val arguments = LoveModel (
-                         response.body()?.firstName.toString(),
-                         response.body()?.secondName.toString(),
-                         response.body()?.percentage.toString(),
-                         response.body()?.result.toString())
+                viewModel.getLiveLoveModel(firstNameEt.text.toString(), secondNameEt.text.toString())
+                    .observe(this@NamesFragment, Observer{
+                        Log.e("aic", "initClicker: ${it.percentage}")
+                    })
 
-                        findNavController().navigate(R.id.resultFragment, bundleOf("key" to arguments))
-                    }
-
-                    override fun onFailure(call: Call<LoveModel>, t: Throwable) {
-
-                    }
-
-                })
-                }
             }
         }
     }
+}
+
